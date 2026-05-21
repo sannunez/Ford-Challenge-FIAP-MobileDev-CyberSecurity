@@ -1,0 +1,3 @@
+1 - Definir endpoint para busca de picapes(truck)(https://carapi.app/api/bodies/v2?type=truck)
+2 - Definir com base no Id da picape(truck) um endpoint com request param para obter informações técnicas (https://carapi.app/api/trims/v2/{id})
+3 - FilterDTO para fazer buscas baseado em Marca(make) Modelo(model) Versão(trim)
