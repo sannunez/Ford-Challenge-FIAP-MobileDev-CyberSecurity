@@ -113,9 +113,11 @@ export default function CarList({ navigation }: Props) {
 
         <View style={styles.container}>
 
+        
+
             <Pressable
                 onPress={() => setOpen(!open)}
-            >
+                >
                 <Text
                     style={{
                         color: "#fff",
@@ -124,10 +126,21 @@ export default function CarList({ navigation }: Props) {
                         textDecorationLine: 'underline',
                         fontSize: 16
                     }}
-                >
+                    >
                     PROCURAR POR MARCAS
                 </Text>
             </Pressable>
+
+            <Text 
+                style={{
+                color: '#fff', 
+                width: 300,
+                fontFamily: 'Montserrat_400Regular', 
+                textAlign: 'center',
+                fontSize: 10
+                }}>
+                Conheça outras picapes, e descubra o porque a nova Raptor é especial
+            </Text>
 
             {open && (
                 <View style={styles.options}>
@@ -219,7 +232,7 @@ export default function CarList({ navigation }: Props) {
                 <Text
                     style={{
                         fontFamily:'Montserrat_400Regular',
-                        fontSize: 12,
+                        fontSize: 10,
                         color: '#FFF'
                     }}
                 >
@@ -248,8 +261,8 @@ export default function CarList({ navigation }: Props) {
                     }
 
                     style={{
-                        width: 310,
-                        height: 170,
+                        width: 290,
+                        height: 160,
                         borderRadius: 5,
                     }}
                 />
@@ -269,7 +282,7 @@ const styles = StyleSheet.create({
     },
     carOptions: {
         display: 'flex',
-        height: 500,
+        height: 480,
         alignItems: "center",
         marginVertical: 10
     },
