@@ -76,6 +76,7 @@ export default function CarList({ navigation }: Props) {
     const renderCar = ({item}: {item: CarTruckDTO}) => (
 
         <TruckCard
+            id={item.id}
             make={item.make}
             model={item.model}
             trim={item.trim}

@@ -1,7 +1,9 @@
-import {View, Text, Pressable, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, Pressable, StyleSheet, ImageBackground, Image} from 'react-native';
 import { memo } from 'react';
+import { useSavedCars } from '../context/SavedCarsProvider';
 
 interface cardProps {
+    id: number,
     make: string,
     model: string,
     trim: string,
@@ -10,8 +12,10 @@ interface cardProps {
     onPress: () => void;
 }
 
-function TruckCard ({make, model, trim, type, year, onPress} : cardProps) {
-    
+function TruckCard ({id, make, model, trim, type, year, onPress} : cardProps) {
+   
+    const { saveCar, removeCar, isSaved } = useSavedCars();
+
     return(
     <ImageBackground
         source={require('../assets/CarListCard.png')}
@@ -28,6 +32,38 @@ function TruckCard ({make, model, trim, type, year, onPress} : cardProps) {
         </View>
         <Pressable onPress={onPress}>
             <Text style={styles.about}>SABER MAIS</Text>
+        </Pressable>
+
+        <Pressable
+        onPress={() => {
+            if (isSaved(id)) {
+                removeCar(id);
+            } else {
+                saveCar({
+                    id,
+                    make,
+                    model,
+                    trim,
+                    type,
+                    year,
+                });
+            }
+        }}
+        >
+            <Image
+                source={
+                    isSaved(id)
+                        ? require("../assets/save-fill.png")
+                        : require("../assets/save.png")
+                }
+
+                 style={{
+                    width: 24,
+                    height: 24,
+                }}
+
+                resizeMode="contain"
+            />
         </Pressable>
     </View>
     </ImageBackground>

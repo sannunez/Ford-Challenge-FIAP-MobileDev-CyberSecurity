@@ -7,6 +7,7 @@ import { TabParamList } from "../types/navigation";
 import CarList from "../screens/carList/carList";
 import Details from "../screens/details/detailsScreen";
 import ReleaseScreen from "../screens/ReleaseScreen/ReleaseScreen";
+import SavedCarsScreen from "../screens/savedCars/SavedCarsScreen";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -25,6 +26,11 @@ const icons = {
         active: require("../assets/settings-active.png"),
         inactive: require("../assets/settings.png"),
     },
+
+    Saved: {
+        active: require("../assets/saved-active.png"),
+        inactive: require("../assets/saved.png"),
+    }
 };
 
 export default function AppRoutes() {
@@ -80,6 +86,12 @@ export default function AppRoutes() {
                     name="Details"
                     component={Details}
                 />
+
+                <Tab.Screen
+                    name="Saved"
+                    component={SavedCarsScreen}
+                />
+
             </Tab.Navigator>
         </NavigationContainer>
     );

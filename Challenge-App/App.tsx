@@ -3,15 +3,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AppRoutes from './routes/AppRoutes';
 import { CarProvider } from './context/CarProvider';
+import { SavedCarsProvider } from './context/SavedCarsProvider';
 
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <CarProvider>
-        <AppRoutes/>
-      </CarProvider>
+      <SavedCarsProvider>
+        <CarProvider>
+          <AppRoutes/>
+        </CarProvider>
+      </SavedCarsProvider>
     </QueryClientProvider>
   );
 }
