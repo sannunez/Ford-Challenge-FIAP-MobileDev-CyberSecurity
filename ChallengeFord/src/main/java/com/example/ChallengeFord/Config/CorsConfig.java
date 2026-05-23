@@ -16,7 +16,8 @@ public class CorsConfig implements WebMvcConfigurer {
                     "http://localhost",   // iOS simulator / web dev
                     "http://127.0.0.1"   // Local development
                 )
-                .allowedMethods("GET")
+                .allowedMethods("GET", "POST")
+                .allowedHeaders("Authorization", "Content-Type")
                 .maxAge(3600);
     }
 }

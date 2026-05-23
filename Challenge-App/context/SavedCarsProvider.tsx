@@ -1,32 +1,18 @@
-import {createContext, useContext, useEffect, useState} from "react";
-
-import {getSavedCarsStorage, saveCarsStorage, clearCarsStorage} from "../services/savedCarsStorage";
-
-interface Car {
-    id: number;
-    make: string;
-    model: string;
-    trim: string;
-    type: string;
-    year: number;
-}
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { getSavedCarsStorage, saveCarsStorage, clearCarsStorage, type SavedCar } from "../services/savedCarsStorage";
 
 interface SavedCarsContextData {
-    savedCars: Car[];
-
-    saveCar: (car: Car) => void;
-
+    savedCars: SavedCar[];
+    saveCar: (car: SavedCar) => void;
     removeCar: (id: number) => void;
-
     clearSavedCars: () => void;
-
     isSaved: (id: number) => boolean;
 }
 
 const SavedCarsContext = createContext({} as SavedCarsContextData);
 
-export function SavedCarsProvider({children}: any) {
-    const [savedCars, setSavedCars] = useState<Car[]>([]);
+export function SavedCarsProvider({ children }: React.PropsWithChildren) {
+    const [savedCars, setSavedCars] = useState<SavedCar[]>([]);
 
     useEffect(() => {
         loadCars();
@@ -34,52 +20,29 @@ export function SavedCarsProvider({children}: any) {
 
     async function loadCars() {
         const data = await getSavedCarsStorage();
-
         setSavedCars(data);
     }
 
-    function saveCar(car: Car) {
-
-    setSavedCars((prevCars) => {
-
-        const alreadySaved =
-            prevCars.some(
-                (item) => item.id === car.id
-            );
-
-        if (alreadySaved) {
-            return prevCars;
-        }
-
-        const updatedCars = [
-            ...prevCars,
-            car,
-        ];
-
-        saveCarsStorage(updatedCars);
-
-        return updatedCars;
-    });
-}
+    function saveCar(car: SavedCar) {
+        setSavedCars((prevCars) => {
+            const alreadySaved = prevCars.some((item) => item.id === car.id);
+            if (alreadySaved) return prevCars;
+            const updatedCars = [...prevCars, car];
+            saveCarsStorage(updatedCars);
+            return updatedCars;
+        });
+    }
 
     function removeCar(id: number) {
-
-    setSavedCars((prevCars) => {
-
-        const updatedCars =
-            prevCars.filter(
-                (car) => car.id !== id
-            );
-
-        saveCarsStorage(updatedCars);
-
-        return updatedCars;
-    });
-}
+        setSavedCars((prevCars) => {
+            const updatedCars = prevCars.filter((car) => car.id !== id);
+            saveCarsStorage(updatedCars);
+            return updatedCars;
+        });
+    }
 
     async function clearSavedCars() {
         setSavedCars([]);
-
         await clearCarsStorage();
     }
 
@@ -88,15 +51,7 @@ export function SavedCarsProvider({children}: any) {
     }
 
     return (
-        <SavedCarsContext.Provider
-            value={{
-                savedCars,
-                saveCar,
-                removeCar,
-                clearSavedCars,
-                isSaved,
-            }}
-        >
+        <SavedCarsContext.Provider value={{ savedCars, saveCar, removeCar, clearSavedCars, isSaved }}>
             {children}
         </SavedCarsContext.Provider>
     );

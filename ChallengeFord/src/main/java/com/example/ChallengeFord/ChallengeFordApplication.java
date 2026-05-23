@@ -2,9 +2,10 @@ package com.example.ChallengeFord;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
-@SpringBootApplication
+// Exclude default UserDetailsServiceAutoConfiguration — auth is handled exclusively via JWT
+@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
 public class ChallengeFordApplication {
 
 	public static void main(String[] args) {

@@ -1,16 +1,14 @@
 import type { CarDetailsDTO } from "../interface/CarDetailsDTO";
-import axios from 'axios';
-import {useQuery} from "@tanstack/react-query"
-
-const API_URL = "http://10.0.2.2:8080/cars"
+import api from "../services/axiosInstance";
+import { useQuery } from "@tanstack/react-query";
 
 const fetchCarDetails = async (id: number): Promise<CarDetailsDTO> => {
-    const response = await axios.get<CarDetailsDTO>(`${API_URL}/${id}`);
+    const response = await api.get<CarDetailsDTO>(`/cars/${id}`);
     return response.data;
-}
+};
 
-export function getCarDetails(id: number){
-    // Guarda: só envia a requisição se o id for um inteiro positivo — evita chamadas malformadas à API
+export function getCarDetails(id: number) {
+    // Guard: only sends request if ID is a positive integer — prevents malformed API calls
     const isValidId = Number.isInteger(id) && id > 0;
 
     return useQuery({

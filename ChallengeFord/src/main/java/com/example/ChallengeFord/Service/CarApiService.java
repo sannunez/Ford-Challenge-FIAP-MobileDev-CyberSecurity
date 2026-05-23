@@ -2,42 +2,46 @@ package com.example.ChallengeFord.Service;
 
 import com.example.ChallengeFord.Client.CarApiClient;
 import com.example.ChallengeFord.Model.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
 public class CarApiService {
-    private CarApiClient client;
 
-    public CarApiService(CarApiClient client){
+    private final CarApiClient client;
+
+    public CarApiService(CarApiClient client) {
         this.client = client;
     }
 
-    public CarTruckResponse getAll(CarFilterDTO filter, int page){
-
+    @Cacheable(value = "trucks",
+               key = "(#filter.make ?: '') + '-' + (#filter.model ?: '') + '-' + (#filter.trim ?: '') + '-' + #page")
+    public CarTruckResponse getAll(CarFilterDTO filter, int page) {
         CarTruckResponse response = client.getTruckPageWithFilter(filter, page);
 
+        if (response == null || response.getData() == null) {
+            return new CarTruckResponse();
+        }
+
         List<CarTruckDTO> carrosFiltrados = removeDuplicados(response.getData());
-
         response.setData(carrosFiltrados);
-
         return response;
     }
 
-    public CarDetailsDTO getCarDetails(String id){
+    @Cacheable(value = "carDetails", key = "#id")
+    public CarDetailsDTO getCarDetails(String id) {
         CarDetailsResponse response = client.getCarDetails(id);
-
-        if(response == null){
+        if (response == null) {
             return new CarDetailsDTO();
         }
-
         return mapToDTO(response);
     }
 
     public CarDetailsDTO mapToDTO(CarDetailsResponse api) {
-
         CarDetailsDTO dto = new CarDetailsDTO();
 
         dto.setMake(api.getMake());
@@ -45,38 +49,30 @@ public class CarApiService {
         dto.setTrim(api.getTrim());
         dto.setYear(api.getYear());
 
-        // ENGINE
         if (api.getEngines() != null && !api.getEngines().isEmpty()) {
             var engine = api.getEngines().get(0);
-
             dto.setMotor(
-                    engine.getEngineType() + " " +
-                            engine.getSize() + "L " +
-                            engine.getCylinders()
+                engine.getEngineType() + " " +
+                engine.getSize() + "L " +
+                engine.getCylinders()
             );
-
             dto.setPotencia(engine.getHorsepowerHp());
             dto.setTorqueMax(engine.getTorqueFtLbs());
         }
 
-        // TYPE
-        if(api.getBodies() != null && !api.getBodies().isEmpty()) {
+        if (api.getBodies() != null && !api.getBodies().isEmpty()) {
             dto.setType(api.getBodies().get(0).getType());
         }
 
-        // TRANSMISSION
         if (api.getTransmissions() != null && !api.getTransmissions().isEmpty()) {
             dto.setTransmissao(api.getTransmissions().get(0).getDescription());
         }
 
-        // DRIVE TYPE
         if (api.getDriveTypes() != null && !api.getDriveTypes().isEmpty()) {
             dto.setTracao(api.getDriveTypes().get(0).getDescription());
         }
 
-
         dto.setPreco(api.getMsrp());
-
         dto.setZeroACem(null);
         dto.setAmortecedores(null);
         dto.setModosConducao(null);
@@ -86,27 +82,23 @@ public class CarApiService {
         dto.setFarois(null);
         dto.setRodasPneus(null);
 
-
         return dto;
     }
 
-    private List<CarTruckDTO> removeDuplicados(List<CarTruckDTO> cars){
-
+    private List<CarTruckDTO> removeDuplicados(List<CarTruckDTO> cars) {
         Set<String> seen = new HashSet<>();
-
         return cars.stream()
-                .filter(car -> {
-
-                    String key =
-                                    car.getYear() + "-" +
-                                    car.getMake().trim().toLowerCase() + "-" +
-                                    car.getModel().trim().toLowerCase() + "-" +
-                                    car.getTrim().trim().toLowerCase() + "-" +
-                                    car.getType().trim().toLowerCase();
-
-                    return seen.add(key);
-                })
+                .filter(car -> seen.add(
+                    car.getYear() + "-" +
+                    safeField(car.getMake()) + "-" +
+                    safeField(car.getModel()) + "-" +
+                    safeField(car.getTrim()) + "-" +
+                    safeField(car.getType())
+                ))
                 .toList();
     }
 
+    private static String safeField(String val) {
+        return val != null ? val.trim().toLowerCase() : "";
+    }
 }

@@ -5,6 +5,8 @@ import com.example.ChallengeFord.Model.CarFilterDTO;
 import com.example.ChallengeFord.Model.CarTruckResponse;
 import com.example.ChallengeFord.Service.CarApiService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +30,8 @@ public class CarApiController {
     @GetMapping
     public CarTruckResponse getAll(
             @Valid CarFilterDTO filter,
-            @RequestParam(defaultValue = "1") int page)
+            @RequestParam(defaultValue = "1") @Min(1) @Max(100) int page)
     {
-        if (page < 1) page = 1;
         log.info("GET /cars | page={} make={} model={}", page, filter.getMake(), filter.getModel());
         return service.getAll(filter, page);
     }
