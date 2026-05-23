@@ -136,13 +136,15 @@ O backend consome dados da API pública [carapi.app](https://carapi.app) e aplic
 
 Todos os parâmetros de filtro passam por Bean Validation antes de atingir a lógica de negócio:
 
-| Parâmetro | Regra | Proteção |
-|-----------|-------|----------|
-| `make`, `model`, `trim` | `@Pattern(^[a-zA-Z0-9 \-]*$)` + `@Size(max=50)` | Rejeita caracteres especiais; previne injeção |
-| `page` | `@Min(1) @Max(100)` | Impede payload flooding com números arbitrários |
-| `{id}` (path) | `@Pattern(^[0-9]+$)` | Garante que apenas inteiros cheguem à API externa |
+| Parâmetro | Regra | Ataque mitigado |
+|-----------|-------|-----------------|
+| `make`, `model`, `trim` | `@Pattern(^[a-zA-Z0-9 \-]*$)` + `@Size(max=50)` | **SQL Injection**, **Command Injection**, **Header Injection** — rejeita caracteres especiais antes de qualquer processamento |
+| `page` | `@Min(1) @Max(100)` | **Denial of Service por payload** — impede requisições com números de página arbitrários que sobrecarregariam a API externa |
+| `{id}` (path) | `@Pattern(^[0-9]+$)` | **Path Traversal**, **SQL Injection** — garante que apenas inteiros cheguem à API externa, bloqueando entradas como `../`, `1 OR 1=1`, etc. |
 
-O `UriComponentsBuilder` codifica automaticamente todos os parâmetros antes do envio à API externa, prevenindo injeção via URL.
+O `UriComponentsBuilder` codifica automaticamente todos os parâmetros antes do envio à API externa.
+
+> **Previne: URL Injection, Open Redirect** — a codificação automática impede manipulação de query string na chamada à API externa.
 
 **Frontend — Validação client-side**
 
@@ -153,6 +155,8 @@ const isValidId = Number.isInteger(id) && id > 0;
 return useQuery({ ..., enabled: isValidId });
 ```
 
+> **Previne: Path Traversal, Parameter Tampering** — IDs negativos, zero ou não-inteiros nunca chegam à API.
+
 O serviço `savedCarsStorage.ts` valida o schema antes de aceitar dados do AsyncStorage:
 
 ```typescript
@@ -161,11 +165,17 @@ function isValidCar(item: unknown): item is SavedCar {
 }
 ```
 
-Isso previne que dados corrompidos ou adulterados no armazenamento local causem erros em runtime.
+> **Previne: Data Tampering** — dados corrompidos ou adulterados no armazenamento local são descartados antes de chegar ao estado da aplicação.
+
+O React Native não possui motor de renderização HTML no contexto de componentes, e o projeto não utiliza `dangerouslySetInnerHTML` nem `WebView` com conteúdo dinâmico.
+
+> **Previne: XSS (Cross-Site Scripting)** — sem superfície de renderização HTML, dados maliciosos retornados pela API não conseguem executar código no cliente.
 
 **Tratamento seguro de erros**
 
 O `GlobalExceptionHandler` centraliza todas as exceções e retorna mensagens genéricas ao cliente:
+
+> **Previne: Information Disclosure** — nenhuma exceção interna, stack trace, nome de classe ou tecnologia utilizada é exposta ao cliente. Isso dificulta o reconhecimento (*reconnaissance*) por parte de um atacante.
 
 | Exceção | Resposta ao cliente | Log no servidor |
 |---------|---------------------|-----------------|
@@ -189,6 +199,8 @@ server.error.include-exception=false
 **Implementado via JWT (HMAC-SHA256) com fluxo invisível ao usuário.**
 
 O app obtém um token automaticamente na inicialização — sem tela de login, sem interação do usuário.
+
+> **Previne: Acesso Não Autorizado, Token Forgery, Token Replay** — todo endpoint (exceto `/auth/token`) exige um token válido assinado com HMAC-SHA256; a assinatura criptográfica impede a criação de tokens falsos; a expiração de 1 hora limita a janela de uso de tokens interceptados.
 
 **Fluxo de autenticação**
 
@@ -243,6 +255,8 @@ jwt.app-key=ford-challenge-2026                   # substituir por valor aleató
 
 **Rate Limiting — `RateLimitFilter`**
 
+> **Previne: Brute Force, Credential Stuffing, Denial of Service (DoS)** — um único IP não consegue sobrecarregar a API nem testar credenciais em alta frequência.
+
 - Limite: 60 requisições por minuto por IP
 - Janela deslizante resetada automaticamente a cada 60 segundos
 - Resposta ao exceder: `HTTP 429` com `{"error": "Too many requests"}`
@@ -250,7 +264,7 @@ jwt.app-key=ford-challenge-2026                   # substituir por valor aleató
 
 **Detecção de Anomalias — `RateLimitFilter`**
 
-O filtro monitora acesso sequencial a IDs dentro da janela de rate limit:
+> **Previne: Enumeration Attack, Scraping** — identifica clientes automatizados que varrem o catálogo de veículos consultando dezenas de IDs sequenciais em pouco tempo, mesmo sem ultrapassar o rate limit.
 
 - Rastreia IDs únicos consultados por IP por minuto
 - Ao atingir 30 IDs únicos (threshold), registra alerta no canal de auditoria:
@@ -268,7 +282,7 @@ O filtro monitora acesso sequencial a IDs dentro da janela de rate limit:
 .maxAge(3600)
 ```
 
-Apenas origens de desenvolvimento autorizadas são aceitas. `POST` é necessário para `/auth/token`; demais recursos expõem apenas `GET`. Origens de produção devem ser configuradas antes do deploy.
+> **Previne: Cross-Origin Data Theft** — apenas origens autorizadas conseguem ler respostas da API. CSRF não se aplica aqui pois a autenticação usa JWT no header `Authorization` (não cookie); um site malicioso não consegue injetar esse header automaticamente. `POST` é necessário para `/auth/token`; demais recursos expõem apenas `GET`. Origens de produção devem ser configuradas antes do deploy.
 
 **Timeouts — `RestTemplateConfig`**
 
@@ -277,7 +291,7 @@ O `RestTemplate` tem timeouts configurados para chamadas à API externa:
 - Conexão: 5 segundos
 - Leitura: 10 segundos
 
-Impede que threads fiquem presas indefinidamente em caso de falha da API externa.
+> **Previne: Slowloris, Slow Read DoS** — impede que threads fiquem presas indefinidamente em caso de falha ou lentidão proposital da API externa, protegendo o pool de threads do servidor.
 
 **HTTPS/TLS**
 
@@ -292,7 +306,7 @@ Respostas da API externa são cacheadas em memória com `@Cacheable`:
 - Cache `trucks`: respostas de listagem (chave: filtros + página)
 - Cache `carDetails`: detalhes por ID (chave: ID do veículo)
 
-Além de melhorar performance, o cache reduz a superfície de ataques incrementais que operam dentro do rate limit (ex: scraping lento que nunca ultrapassa 60 req/min, mas consulta repetidamente os mesmos recursos).
+> **Previne: ataques de amplificação** — requisições repetidas aos mesmos recursos não chegam à API externa, limitando o impacto de scraping lento que opera dentro do rate limit.
 
 ---
 
@@ -306,7 +320,9 @@ O AsyncStorage persiste apenas dados mínimos do veículo favoritado:
 { id: number, make: string, model: string, trim: string, type: string, year: number }
 ```
 
-Nenhum dado pessoal do usuário é coletado ou armazenado. O schema é validado em leitura para rejeitar estruturas adulteradas.
+Nenhum dado pessoal do usuário é coletado ou armazenado. O schema é validado em leitura para rejeitar estruturas adulteradas. O JWT de autenticação é armazenado separadamente via `expo-secure-store`, que usa o Keystore do Android e o Keychain do iOS para criptografia em repouso.
+
+> **Previne: Token Theft** — o JWT não pode ser lido via `adb backup` ou acesso direto ao sistema de arquivos em dispositivos não-rooteados.
 
 **Proteção contra exposição acidental**
 
@@ -314,9 +330,7 @@ Nenhum dado pessoal do usuário é coletado ou armazenado. O schema é validado 
 - Nenhum `console.log` permanece no código frontend — dados não são expostos ao `adb logcat`
 - Respostas de erro não revelam stack traces, nomes de classe ou tecnologias utilizadas
 
-**Armazenamento local de dados**
-
-O `AsyncStorage` persiste apenas IDs e nomes de veículos favoritos (sem PII). O JWT de autenticação é armazenado separadamente via `expo-secure-store`, que usa o Keystore do Android e o Keychain do iOS para criptografia em repouso.
+> **Previne: Information Disclosure via logs, Data Leakage** — nenhum dado sensível (tokens, respostas brutas da API externa, stack traces) chega a canais de diagnóstico acessíveis externamente.
 
 ---
 
