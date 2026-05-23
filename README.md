@@ -276,13 +276,17 @@ jwt.app-key=ford-challenge-2026                   # substituir por valor aleató
 **CORS — `CorsConfig`**
 
 ```java
-.allowedOrigins("http://10.0.2.2", "http://localhost", "http://127.0.0.1")
+.allowedOriginPatterns(
+    "http://10.0.2.2:*", // Android emulator
+    "http://localhost:*", // Expo Web / iOS simulator
+    "http://127.0.0.1:*" // Local development
+)
 .allowedMethods("GET", "POST")
 .allowedHeaders("Authorization", "Content-Type")
 .maxAge(3600)
 ```
 
-> **Previne: Cross-Origin Data Theft** — apenas origens autorizadas conseguem ler respostas da API. CSRF não se aplica aqui pois a autenticação usa JWT no header `Authorization` (não cookie); um site malicioso não consegue injetar esse header automaticamente. `POST` é necessário para `/auth/token`; demais recursos expõem apenas `GET`. Origens de produção devem ser configuradas antes do deploy.
+> **Previne: Cross-Origin Data Theft** — apenas origens autorizadas conseguem ler respostas da API. CSRF não se aplica aqui pois a autenticação usa JWT no header `Authorization` (não cookie); um site malicioso não consegue injetar esse header automaticamente. `POST` é necessário para `/auth/token`; demais recursos expõem apenas `GET`. O padrão com curinga de porta (`localhost:*`) cobre o emulador Android, Expo Web e iOS Simulator sem expor o serviço a origens externas. Origens de produção devem ser configuradas com domínios exatos antes do deploy.
 
 **Timeouts — `RestTemplateConfig`**
 
@@ -411,6 +415,7 @@ Abra no emulador Android ou escaneie o QR code com o Expo Go.
 | Item | Status | Observação |
 |------|--------|------------|
 | HTTPS/TLS | Não configurado em dev | HTTP no desenvolvimento; obrigatório antes de produção. Expo Go não suporta CAs customizadas |
-| URL do backend hardcoded | `http://10.0.2.2:8080` | Funciona apenas no emulador Android. Usar variável de ambiente para outros ambientes |
+| URL do backend | `Platform.OS` detecta Android vs. web/iOS | `10.0.2.2:8080` para emulador Android, `localhost:8080` para Expo Web e iOS |
+| Token no Expo Web | `localStorage` em vez de `expo-secure-store` | `expo-secure-store` não tem implementação web; `localStorage` é adequado para desenvolvimento mas não oferece criptografia em repouso |
 | Cache sem TTL | In-memory com `ConcurrentMapCacheManager` | Expira com restart do servidor. Para produção, usar Caffeine ou Redis |
 | Rate limiter em memória | `ConcurrentHashMap` | Não distribuído; perdido em restart. Para multi-instância, usar Redis + Bucket4j |

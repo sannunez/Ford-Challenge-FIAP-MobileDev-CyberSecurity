@@ -20,8 +20,9 @@ function TruckCard ({id, make, model, trim, type, year, onPress} : cardProps) {
     <ImageBackground
         source={require('../assets/CarListCard.png')}
         resizeMode='cover'
+        style={styles.container}
     >
-    <View style={styles.container}>
+    <View style={styles.inner}>
         <View>
             <View style={styles.carInfos}>
                 <Text style={[styles.cardText, {color: '#000000'}]}>{make} </Text>
@@ -75,10 +76,15 @@ function TruckCard ({id, make, model, trim, type, year, onPress} : cardProps) {
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
         width: 330,
         height: 135,
-        alignItems: 'center'
+    },
+    inner: {
+        flex: 1,
+        width: 330,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
     },
     actions: {
         display: 'flex',
@@ -86,12 +92,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         width: 300,
-        marginTop: 5
     },
     carInfos: {
-        width:250,
+        width: 250,
         marginLeft: 90,
-        marginTop: 14,
     },
     about: {
         color: "#fff",
@@ -105,7 +109,8 @@ const styles = StyleSheet.create({
     cardText: {
         color: '#000000',
         fontFamily: 'Montserrat_400Regular',
-        fontSize: 14
+        fontSize: 14,
+        lineHeight: 22,
     }
 
 })

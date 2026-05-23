@@ -11,10 +11,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(
-                    "http://10.0.2.2",   // Android emulator
-                    "http://localhost",   // iOS simulator / web dev
-                    "http://127.0.0.1"   // Local development
+                .allowedOriginPatterns(
+                    "http://10.0.2.2:*", // Android emulator (qualquer porta)
+                    "http://localhost:*", // Web dev / iOS simulator (qualquer porta)
+                    "http://127.0.0.1:*" // Local development (qualquer porta)
                 )
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("Authorization", "Content-Type")
