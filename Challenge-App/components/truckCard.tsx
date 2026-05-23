@@ -30,41 +30,43 @@ function TruckCard ({id, make, model, trim, type, year, onPress} : cardProps) {
                 <Text style={[styles.cardText, {color: '#fff'}]}>{type} </Text>
             </View>
         </View>
-        <Pressable onPress={onPress}>
-            <Text style={styles.about}>SABER MAIS</Text>
-        </Pressable>
+        <View style={styles.actions}>
+            <Pressable onPress={onPress}>
+                <Text style={styles.about}>SABER MAIS</Text>
+            </Pressable>
 
-        <Pressable
-        onPress={() => {
-            if (isSaved(id)) {
-                removeCar(id);
-            } else {
-                saveCar({
-                    id,
-                    make,
-                    model,
-                    trim,
-                    type,
-                    year,
-                });
-            }
-        }}
-        >
-            <Image
-                source={
-                    isSaved(id)
-                        ? require("../assets/save-fill.png")
-                        : require("../assets/save.png")
+            <Pressable
+            onPress={() => {
+                if (isSaved(id)) {
+                    removeCar(id);
+                } else {
+                    saveCar({
+                        id,
+                        make,
+                        model,
+                        trim,
+                        type,
+                        year,
+                    });
                 }
+            }}
+            >
+                <Image
+                    source={
+                        isSaved(id)
+                            ? require("../assets/save-fill.png")
+                            : require("../assets/save.png")
+                    }
 
-                 style={{
-                    width: 24,
-                    height: 24,
-                }}
+                    style={{
+                        width: 24,
+                        height: 24,
+                    }}
 
-                resizeMode="contain"
-            />
-        </Pressable>
+                    resizeMode="contain"
+                />
+            </Pressable>
+        </View>
     </View>
     </ImageBackground>
     )
@@ -78,6 +80,14 @@ const styles = StyleSheet.create({
         height: 135,
         alignItems: 'center'
     },
+    actions: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        width: 300,
+        marginTop: 5
+    },
     carInfos: {
         width:250,
         marginLeft: 90,
@@ -90,8 +100,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat_700Bold',
         width: 100,
         borderRadius: 5,
-        marginTop: 5
-      
 
     },
     cardText: {

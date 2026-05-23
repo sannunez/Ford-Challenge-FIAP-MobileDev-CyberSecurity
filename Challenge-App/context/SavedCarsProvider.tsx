@@ -38,23 +38,44 @@ export function SavedCarsProvider({children}: any) {
         setSavedCars(data);
     }
 
-    async function saveCar(car: Car) {
-        if (isSaved(car.id)) return;
+    function saveCar(car: Car) {
 
-        const updatedCars = [...savedCars, car];
+    setSavedCars((prevCars) => {
 
-        setSavedCars(updatedCars);
+        const alreadySaved =
+            prevCars.some(
+                (item) => item.id === car.id
+            );
 
-        await saveCarsStorage(updatedCars);
-    }
+        if (alreadySaved) {
+            return prevCars;
+        }
 
-    async function removeCar(id: number) {
-        const updatedCars = savedCars.filter((car) => car.id !== id);
+        const updatedCars = [
+            ...prevCars,
+            car,
+        ];
 
-        setSavedCars(updatedCars);
+        saveCarsStorage(updatedCars);
 
-        await saveCarsStorage(updatedCars);
-    }
+        return updatedCars;
+    });
+}
+
+    function removeCar(id: number) {
+
+    setSavedCars((prevCars) => {
+
+        const updatedCars =
+            prevCars.filter(
+                (car) => car.id !== id
+            );
+
+        saveCarsStorage(updatedCars);
+
+        return updatedCars;
+    });
+}
 
     async function clearSavedCars() {
         setSavedCars([]);

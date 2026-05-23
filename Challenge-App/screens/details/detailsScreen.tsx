@@ -28,8 +28,28 @@ export default function Details() {
     if (!selectedCarId) {
         return (
             <View style={styles.container}>
-                <Text style={styles.header_text}>
+                <Text
+                style={{
+                    color: "#fff",
+                    fontSize: 18,
+                    fontFamily: "Montserrat_700Bold",
+                    textAlign: "center"
+                    }}
+                >
                     Nenhum veículo selecionado
+                </Text>
+
+                <Text
+                    style={{
+                        color: "#888",
+                        marginTop: 10,
+                        textAlign: "center",
+                        fontFamily: "Montserrat_400Regular",
+                        width: 300
+                    }}
+                >
+                    Selecione "SAIBA MAIS" para ver detalhes dos veículos
+                    que quiser.
                 </Text>
             </View>
         );
