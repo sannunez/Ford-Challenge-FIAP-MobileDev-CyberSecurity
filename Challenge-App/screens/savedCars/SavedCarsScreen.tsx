@@ -1,129 +1,80 @@
-import { View, FlatList, Text } from "react-native";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { TabParamList } from "../../types/navigation";
-import { useFonts, Montserrat_700Bold } from "@expo-google-fonts/montserrat";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
+import AppBackground from "../../components/AppBackground";
+import GlassCard from "../../components/GlassCard";
 import SavedCard from "../../components/savedCard";
-
-import { useSavedCars } from "../../context/SavedCarsProvider";
 import { useCar } from "../../context/CarProvider";
+import { useSavedCars } from "../../context/SavedCarsProvider";
+import { colors, fonts, spacing } from "../../theme";
+import type { TabParamList } from "../../types/navigation";
 
+type SavedNav = BottomTabNavigationProp<TabParamList, "Saved">;
+type Props = { navigation: SavedNav };
 
-type SavedNav =BottomTabNavigationProp<TabParamList,"Saved">;
-
-type Props = {
-    navigation: SavedNav;
-};
-
-export default function SavedCarsScreen({navigation}: Props) {
-
-    const [fontsLoaded] = useFonts({
-        Montserrat_700Bold
-    });
-
-    const { savedCars } =
-        useSavedCars();
-
-    const { setSelectedCarId } =
-        useCar();
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
-    if (savedCars.length === 0) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 20,
-                }}
-            >
-
-            <Text
-                style={{
-                    color: "#fff",
-                    fontSize: 18,
-                    fontFamily:
-                        "Montserrat_700Bold",
-                    textAlign: "center",
-                }}
-            >
-                Nenhum veículo salvo
-            </Text>
-
-            <Text
-                style={{
-                    color: "#888",
-                    marginTop: 10,
-                    textAlign: "center",
-                    fontFamily:
-                        "Montserrat_400Regular",
-                }}
-            >
-                Favorite picapes na tela de
-                veículos para encontrá-las aqui.
-            </Text>
-
-            </View>
-        );
-    }
+export default function SavedCarsScreen({ navigation }: Props) {
+    const { savedCars } = useSavedCars();
+    const { setSelectedCarId } = useCar();
 
     return (
-
-        <View
-            style={{
-                flex: 1,
-                padding: 16,
-            }}
-        >
-
-            <Text
-                style={{
-                    fontFamily: "Montserrat_700Bold",
-                    fontSize: 28,
-                    color: "#fff",
-                    textDecorationLine:"underline",
-                    marginTop: 15,
-                    marginBottom: 20,
-                }}
-            >
-                Favoritados
-            </Text>
-
-            <FlatList
-                data={savedCars}
-
-                keyExtractor={(item) =>
-                    item.id.toString()
-                }
-
-                renderItem={({ item }) => (
-
-                    <SavedCard
-                        id={item.id}
-                        make={item.make}
-                        model={item.model}
-                        trim={item.trim}
-                        type={item.type}
-                        year={item.year}
-
-                        onPress={() => {
-
-                            setSelectedCarId(
-                                item.id
-                            );
-
-                            navigation.navigate(
-                                "Details"
-                            );
-                        }}
-                    />
-                )}
-            />
-
-        </View>
+        <AppBackground>
+            <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
+                <FlatList
+                    data={savedCars}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <SavedCard
+                            {...item}
+                            onPress={() => {
+                                setSelectedCarId(item.id);
+                                navigation.navigate("Details");
+                            }}
+                        />
+                    )}
+                    ListHeaderComponent={
+                        <View style={styles.header}>
+                            <Text style={styles.eyebrow}>SUA SELEÇÃO</Text>
+                            <Text style={styles.title}>Veículos salvos</Text>
+                            <Text style={styles.subtitle}>
+                                Mantenha os modelos mais relevantes por perto para consultar suas especificações.
+                            </Text>
+                        </View>
+                    }
+                    ListEmptyComponent={
+                        <GlassCard contentStyle={styles.emptyContent}>
+                            <Text style={styles.emptyTitle}>Sua lista está vazia</Text>
+                            <Text style={styles.emptyText}>
+                                Toque no ícone de salvar em um veículo para adicioná-lo aqui.
+                            </Text>
+                        </GlassCard>
+                    }
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    contentContainerStyle={styles.listContent}
+                    showsVerticalScrollIndicator={false}
+                />
+            </SafeAreaView>
+        </AppBackground>
     );
 }
+
+const styles = StyleSheet.create({
+    safeArea: { flex: 1 },
+    listContent: {
+        width: "100%",
+        maxWidth: 720,
+        flexGrow: 1,
+        alignSelf: "center",
+        paddingHorizontal: spacing.md,
+        paddingTop: spacing.lg,
+        paddingBottom: 112,
+    },
+    header: { marginBottom: spacing.lg },
+    eyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 11 },
+    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 30, marginTop: spacing.xs },
+    subtitle: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 14, lineHeight: 21, marginTop: spacing.sm, maxWidth: 520 },
+    separator: { height: spacing.md },
+    emptyContent: { alignItems: "center", justifyContent: "center", minHeight: 190, padding: spacing.lg },
+    emptyTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 19, textAlign: "center" },
+    emptyText: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: spacing.sm, maxWidth: 360 },
+});

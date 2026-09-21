@@ -1,8 +1,9 @@
-import {View, Text, Pressable, StyleSheet, Image,} from "react-native";
 import { memo } from "react";
-import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from "@expo-google-fonts/montserrat";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useSavedCars } from "../context/SavedCarsProvider";
+import { colors, fonts, radius, spacing } from "../theme";
+import GlassCard from "./GlassCard";
 
 interface CardProps {
     id: number;
@@ -11,135 +12,93 @@ interface CardProps {
     trim: string;
     type: string;
     year: number;
-
     onPress: () => void;
 }
 
-
-function SavedCard({id, make, model, trim, type, year, onPress,}: CardProps) {
-    const [fontsLoaded] = useFonts({
-            Montserrat_400Regular,
-            Montserrat_700Bold
-        });
-
-    const {
-        removeCar,
-        isSaved,
-    } = useSavedCars();
+function SavedCard({ id, make, model, trim, type, year, onPress }: CardProps) {
+    const { removeCar } = useSavedCars();
 
     return (
-
-        <View style={styles.container}>
-
-            <View>
-
-                <Text style={styles.title}>
-                    {make} {model}
-                </Text>
-
-                <Text style={styles.text}>
-                    <Text style={styles.innerText}>VERSÃO: </Text> {trim}
-                </Text>
-
-                <Text style={styles.text}>
-                    <Text style={styles.innerText}>TIPO: </Text> {type}
-                </Text>
-
-                <Text style={styles.text}>
-                    <Text style={styles.innerText}>ANO: </Text>{year}
-                </Text>
-
+        <GlassCard blur={false} style={styles.card} contentStyle={styles.content}>
+            <View style={styles.heading}>
+                <View style={styles.titleGroup}>
+                    <Text style={styles.make}>{make}</Text>
+                    <Text style={styles.title} numberOfLines={2}>{model}</Text>
+                </View>
+                <Text style={styles.year}>{year}</Text>
             </View>
-
+            <Text style={styles.description} numberOfLines={2}>
+                {trim || "Versão não informada"} · {type || "Picape"}
+            </Text>
             <View style={styles.actions}>
-
                 <Pressable
-                    style={styles.button}
+                    accessibilityRole="button"
                     onPress={onPress}
+                    style={({ pressed }) => [styles.primaryButton, pressed && styles.pressed]}
                 >
-                    <Text style={styles.buttonText}>
-                        SABER MAIS
-                    </Text>
+                    <Text style={styles.primaryButtonText}>Ver especificações</Text>
                 </Pressable>
-
                 <Pressable
-                    onPress={() =>
-                        removeCar(id)
-                    }
+                    accessibilityRole="button"
+                    accessibilityLabel="Remover dos salvos"
+                    onPress={() => removeCar(id)}
+                    style={({ pressed }) => [styles.removeButton, pressed && styles.pressed]}
                 >
-
-                    <Image
-                        source={
-                            isSaved(id)
-                                ? require(
-                                    "../assets/save-fill.png"
-                                )
-                                : require(
-                                    "../assets/save.png"
-                                )
-                        }
-
-                        style={{
-                            width: 24,
-                            height: 24,
-                        }}
-
-                        resizeMode="contain"
-                    />
-
+                    <Image source={require("../assets/save-fill.png")} style={styles.icon} resizeMode="contain" />
                 </Pressable>
-
             </View>
-
-        </View>
+        </GlassCard>
     );
 }
 
 const styles = StyleSheet.create({
-
-    container: {
-        backgroundColor: "#2e2d2d",
-        marginBottom: 16,
-        padding: 16,
-        borderRadius: 12,
-    },
-
-    title: {
-        color: "#fff",
-        fontSize: 18,
-        fontFamily: 'Montserrat_700Bold'
-    },
-
-    text: {
-        color: "#ccc",
-        marginTop: 4,
-        fontFamily: 'Montserrat_400Regular'
-    },
-
-    actions: {
-        display: 'flex',
+    card: { width: "100%" },
+    content: { padding: spacing.md },
+    heading: {
         flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: spacing.md,
+    },
+    titleGroup: { flex: 1 },
+    make: {
+        color: colors.brightBlue,
+        fontFamily: fonts.semibold,
+        fontSize: 11,
+        textTransform: "uppercase",
+    },
+    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 19, marginTop: 2 },
+    year: { color: colors.ice, fontFamily: fonts.semibold, fontSize: 12, paddingTop: 2 },
+    description: {
+        color: colors.textMuted,
+        fontFamily: fonts.regular,
+        fontSize: 13,
+        lineHeight: 19,
+        marginTop: spacing.sm,
+    },
+    actions: { flexDirection: "row", gap: spacing.sm, marginTop: spacing.md },
+    primaryButton: {
+        flex: 1,
+        minHeight: 44,
         alignItems: "center",
-        gap: 12,
-        marginTop: 12,
+        justifyContent: "center",
+        borderRadius: radius.md,
+        backgroundColor: colors.fordBlue,
+        paddingHorizontal: spacing.md,
     },
-
-    button: {
-        backgroundColor: "#0E63EE",
-        padding: 10,
-        borderRadius: 8,
-        
+    primaryButtonText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 13 },
+    removeButton: {
+        width: 46,
+        height: 44,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: radius.md,
+        borderWidth: 1,
+        borderColor: colors.glassBorder,
+        backgroundColor: "rgba(57, 168, 255, 0.12)",
     },
-
-    buttonText: {
-        color: "#fff",
-        textAlign: "center",
-        fontFamily: 'Montserrat_700Bold'
-    },
-
-    innerText: {
-        fontFamily: 'Montserrat_700Bold'
-    }
+    icon: { width: 22, height: 22 },
+    pressed: { opacity: 0.72 },
 });
 
 export default memo(SavedCard);

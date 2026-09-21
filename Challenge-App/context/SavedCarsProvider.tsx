@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getSavedCarsStorage, saveCarsStorage, clearCarsStorage, type SavedCar } from "../services/savedCarsStorage";
 
 interface SavedCarsContextData {
@@ -23,7 +23,7 @@ export function SavedCarsProvider({ children }: React.PropsWithChildren) {
         setSavedCars(data);
     }
 
-    function saveCar(car: SavedCar) {
+    const saveCar = useCallback((car: SavedCar) => {
         setSavedCars((prevCars) => {
             const alreadySaved = prevCars.some((item) => item.id === car.id);
             if (alreadySaved) return prevCars;
@@ -31,27 +31,35 @@ export function SavedCarsProvider({ children }: React.PropsWithChildren) {
             saveCarsStorage(updatedCars);
             return updatedCars;
         });
-    }
+    }, []);
 
-    function removeCar(id: number) {
+    const removeCar = useCallback((id: number) => {
         setSavedCars((prevCars) => {
             const updatedCars = prevCars.filter((car) => car.id !== id);
             saveCarsStorage(updatedCars);
             return updatedCars;
         });
-    }
+    }, []);
 
-    async function clearSavedCars() {
+    const clearSavedCars = useCallback(async () => {
         setSavedCars([]);
         await clearCarsStorage();
-    }
+    }, []);
 
-    function isSaved(id: number) {
+    const isSaved = useCallback((id: number) => {
         return savedCars.some((car) => car.id === id);
-    }
+    }, [savedCars]);
+
+    const value = useMemo(() => ({
+        savedCars,
+        saveCar,
+        removeCar,
+        clearSavedCars,
+        isSaved,
+    }), [savedCars, saveCar, removeCar, clearSavedCars, isSaved]);
 
     return (
-        <SavedCarsContext.Provider value={{ savedCars, saveCar, removeCar, clearSavedCars, isSaved }}>
+        <SavedCarsContext.Provider value={value}>
             {children}
         </SavedCarsContext.Provider>
     );
