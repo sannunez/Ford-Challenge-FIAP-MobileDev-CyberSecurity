@@ -1,0 +1,10 @@
+# Local environment files may contain credentials.
+.env
+.env.*
+!.env.example
+
+# Local tooling and build output.
+.idea/
+**/target/
+**/dist/
+

@@ -1,10 +1,8 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
-import { Platform } from "react-native";
 import { getToken, fetchAndStoreToken } from "./authService";
+import { API_URL } from "./apiConfig";
 
-export const BASE_URL = Platform.OS === "android"
-    ? "http://10.0.2.2:8080"
-    : "http://localhost:8080";
+export const BASE_URL = API_URL;
 
 interface RetryableRequest extends InternalAxiosRequestConfig {
     _retry?: boolean;

@@ -1,9 +1,9 @@
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { Platform } from "react-native";
+import { API_URL, APP_KEY } from "./apiConfig";
 
-const AUTH_URL = `${Platform.OS === "android" ? "http://10.0.2.2:8080" : "http://localhost:8080"}/auth/token`;
-const APP_KEY = "ford-challenge-2026";
+const AUTH_URL = `${API_URL}/auth/token`;
 const TOKEN_KEY = "auth_token";
 
 // expo-secure-store não tem implementação web — usa localStorage como fallback
