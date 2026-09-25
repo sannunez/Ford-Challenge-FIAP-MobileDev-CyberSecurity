@@ -73,17 +73,55 @@ const styles = StyleSheet.create({
         paddingTop: spacing.lg,
         paddingBottom: 112,
     },
-    eyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 11 },
-    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 30, marginTop: spacing.xs },
-    subtitle: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 14, lineHeight: 21, marginTop: spacing.sm, maxWidth: 520 },
-    hero: { width: "100%", marginTop: spacing.md },
+    eyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11 
+    },
+    title: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 30, 
+        marginTop: spacing.xs 
+    },
+    subtitle: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 14, lineHeight: 21, 
+        marginTop: spacing.sm, 
+        maxWidth: 520 
+    },
+    hero: { 
+        width: "100%", 
+        marginTop: spacing.md 
+    },
     highlightCard: { marginTop: spacing.sm },
     highlightContent: { padding: spacing.md },
-    highlightTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 17, textAlign: "center" },
-    complements: { width: "100%", marginTop: spacing.md },
-    sectionHeading: { marginTop: spacing.xl, marginBottom: spacing.md },
-    sectionEyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 10 },
-    sectionTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 20, marginTop: 3 },
+    highlightTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 17, 
+        textAlign: "center" 
+    },
+    complements: { 
+        width: "100%", 
+        marginTop: spacing.md 
+    },
+    sectionHeading: { 
+        marginTop: spacing.xl, 
+        marginBottom: spacing.md 
+    },
+    sectionEyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 10 
+    },
+    sectionTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 20, 
+        marginTop: 3 
+    },
     tableFrame: { padding: spacing.sm },
     table: { width: "100%" },
 });

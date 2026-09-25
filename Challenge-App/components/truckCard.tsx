@@ -91,7 +91,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         gap: spacing.md,
     },
-    titleGroup: { flex: 1, minWidth: 0 },
+    titleGroup: { 
+        flex: 1, 
+        minWidth: 0 
+    },
     make: {
         color: colors.brightBlue,
         fontFamily: fonts.semibold,
@@ -112,7 +115,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.sm,
         paddingVertical: spacing.xs,
     },
-    year: { color: colors.ice, fontFamily: fonts.semibold, fontSize: 12 },
+    year: { 
+        color: colors.ice, 
+        fontFamily: fonts.semibold, 
+        fontSize: 12 
+    },
     metadata: {
         marginTop: spacing.md,
         paddingTop: spacing.md,
@@ -132,7 +139,11 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
     divider: { height: spacing.sm },
-    actions: { flexDirection: "row", gap: spacing.sm, marginTop: spacing.md },
+    actions: { 
+        flexDirection: "row", 
+        gap: spacing.sm, 
+        marginTop: spacing.md 
+    },
     primaryButton: {
         flex: 1,
         minHeight: 44,
@@ -142,7 +153,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.fordBlue,
         paddingHorizontal: spacing.md,
     },
-    primaryButtonText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 13 },
+    primaryButtonText: { 
+        color: colors.white, 
+        fontFamily: fonts.semibold, 
+        fontSize: 13 
+    },
     saveButton: {
         width: 46,
         height: 44,
@@ -157,7 +172,10 @@ const styles = StyleSheet.create({
         borderColor: "rgba(57, 168, 255, 0.62)",
         backgroundColor: "rgba(57, 168, 255, 0.15)",
     },
-    saveIcon: { width: 22, height: 22 },
+    saveIcon: { 
+        width: 22, 
+        height: 22 
+    },
     pressed: { opacity: 0.72 },
 });
 

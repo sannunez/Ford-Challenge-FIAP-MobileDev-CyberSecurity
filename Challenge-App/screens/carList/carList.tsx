@@ -207,8 +207,17 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         padding: spacing.sm,
     },
-    eyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 11 },
-    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 30, marginTop: spacing.xs },
+    eyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11 
+    },
+    title: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 30, 
+        marginTop: spacing.xs 
+    },
     subtitle: {
         color: colors.textMuted,
         fontFamily: fonts.regular,
@@ -229,10 +238,27 @@ const styles = StyleSheet.create({
         borderColor: colors.glassBorder,
         backgroundColor: "rgba(7, 32, 59, 0.68)",
     },
-    filterLabel: { color: colors.textMuted, fontFamily: fonts.medium, fontSize: 10, textTransform: "uppercase" },
-    filterValue: { color: colors.text, fontFamily: fonts.semibold, fontSize: 15, marginTop: 2 },
-    chevron: { color: colors.brightBlue, fontFamily: fonts.regular, fontSize: 26 },
-    filtersArea: { position: "relative", zIndex: 20 },
+    filterLabel: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.medium, 
+        fontSize: 10, 
+        textTransform: "uppercase" 
+    },
+    filterValue: { 
+        color: colors.text, 
+        fontFamily: fonts.semibold, 
+        fontSize: 15, 
+        marginTop: 2 
+    },
+    chevron: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.regular, 
+        fontSize: 26 
+    },
+    filtersArea: { 
+        position: "relative", 
+        zIndex: 20 
+    },
     filterPanel: {
         position: "absolute",
         top: 70,
@@ -241,7 +267,12 @@ const styles = StyleSheet.create({
         zIndex: 30,
         elevation: 16,
     },
-    filterGrid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, padding: spacing.md },
+    filterGrid: { 
+        flexDirection: "row", 
+        flexWrap: "wrap", 
+        gap: spacing.sm, 
+        padding: spacing.md 
+    },
     brandOption: {
         width: 58,
         height: 48,
@@ -252,9 +283,19 @@ const styles = StyleSheet.create({
         borderColor: "rgba(185, 225, 255, 0.10)",
         backgroundColor: "rgba(255, 255, 255, 0.05)",
     },
-    brandOptionActive: { borderColor: colors.brightBlue, backgroundColor: "rgba(57, 168, 255, 0.18)" },
-    brandLogo: { width: 34, height: 28 },
-    allBrands: { color: colors.textMuted, fontFamily: fonts.semibold, fontSize: 10 },
+    brandOptionActive: { 
+        borderColor: colors.brightBlue, 
+        backgroundColor: "rgba(57, 168, 255, 0.18)" 
+    },
+    brandLogo: { 
+        width: 34, 
+        height: 28 
+    },
+    allBrands: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.semibold, 
+        fontSize: 10 
+    },
     brandTextActive: { color: colors.text },
     sectionHeading: {
         flexDirection: "row",
@@ -264,8 +305,17 @@ const styles = StyleSheet.create({
         marginTop: spacing.md,
         marginBottom: spacing.sm,
     },
-    sectionTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 20 },
-    resultCount: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 10, textAlign: "right" },
+    sectionTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 20 
+    },
+    resultCount: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 10, 
+        textAlign: "right" 
+    },
     listFrame: {
         flex: 1,
         minHeight: 110,
@@ -276,14 +326,46 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(3, 18, 35, 0.42)",
     },
     separator: { height: spacing.md },
-    emptyState: { alignItems: "center", padding: spacing.lg },
-    emptyTitle: { color: colors.text, fontFamily: fonts.semibold, fontSize: 16, textAlign: "center" },
-    emptyText: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: spacing.sm },
-    retryButton: { marginTop: spacing.md, borderRadius: radius.md, backgroundColor: colors.fordBlue, paddingHorizontal: spacing.md, paddingVertical: 12 },
-    retryText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 13 },
+    emptyState: { 
+        alignItems: "center", 
+        padding: spacing.lg 
+    },
+    emptyTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.semibold, 
+        fontSize: 16, 
+        textAlign: "center" 
+    },
+    emptyText: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 13, 
+        lineHeight: 20, 
+        textAlign: "center", 
+        marginTop: spacing.sm },
+    retryButton: { 
+        marginTop: spacing.md, 
+        borderRadius: radius.md, 
+        backgroundColor: colors.fordBlue, 
+        paddingHorizontal: spacing.md, 
+        paddingVertical: 12 },
+    retryText: { 
+        color: colors.white, 
+        fontFamily: fonts.semibold, 
+        fontSize: 13 
+    },
     loader: { marginVertical: spacing.md },
-    footerEyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 10 },
-    footerTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 17, marginTop: 2 },
+    footerEyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 10 
+    },
+    footerTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 17, 
+        marginTop: 2 
+    },
     trailerCard: {
         overflow: "hidden",
         height: 180,
@@ -293,9 +375,20 @@ const styles = StyleSheet.create({
         borderColor: colors.glassBorder,
         backgroundColor: colors.navy900,
     },
-    trailerImage: { width: "100%", height: "60%" },
+    trailerImage: { 
+        width: "100%", 
+        height: "60%" 
+    },
     trailerOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(2, 11, 24, 0.56)" },
-    trailerContent: { flex: 1, justifyContent: "center", paddingHorizontal: spacing.md },
-    playText: { color: colors.ice, fontFamily: fonts.semibold, fontSize: 11, marginTop: spacing.xs },
+    trailerContent: { 
+        flex: 1, justifyContent: "center", 
+        paddingHorizontal: spacing.md 
+    },
+    playText: { 
+        color: colors.ice, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11, 
+        marginTop: spacing.xs 
+    },
     pressed: { opacity: 0.72 },
 });

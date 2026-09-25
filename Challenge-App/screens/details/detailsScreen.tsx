@@ -145,27 +145,114 @@ const styles = StyleSheet.create({
         paddingTop: spacing.lg,
         paddingBottom: 112,
     },
-    eyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 11 },
-    vehicleTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 28, marginTop: spacing.xs },
-    trim: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 14, lineHeight: 21, marginTop: spacing.sm },
-    badges: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, marginTop: spacing.md },
-    badge: { borderRadius: radius.sm, borderWidth: 1, borderColor: colors.glassBorder, backgroundColor: "rgba(57, 168, 255, 0.12)", paddingHorizontal: spacing.sm, paddingVertical: spacing.xs },
-    badgeText: { color: colors.ice, fontFamily: fonts.semibold, fontSize: 11 },
+    eyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11 
+    },
+    vehicleTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 28, 
+        marginTop: spacing.xs 
+    },
+    trim: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 14, 
+        lineHeight: 21, 
+        marginTop: spacing.sm 
+    },
+    badges: { 
+        flexDirection: "row", 
+        flexWrap: "wrap", 
+        gap: spacing.sm, 
+        marginTop: spacing.md 
+    },
+    badge: { 
+        borderRadius: radius.sm, 
+        borderWidth: 1, 
+        borderColor: colors.glassBorder, 
+        backgroundColor: "rgba(57, 168, 255, 0.12)", 
+        paddingHorizontal: spacing.sm, 
+        paddingVertical: spacing.xs 
+    },
+    badgeText: { 
+        color: colors.ice, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11 
+    },
     sectionCard: { marginTop: spacing.md },
     sectionContent: { padding: spacing.md },
-    sectionHeader: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.xs },
-    sectionMarker: { width: 3, height: 18, borderRadius: 2, backgroundColor: colors.brightBlue },
-    sectionTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 17 },
-    detailRow: { paddingVertical: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.glassBorder },
-    detailLabel: { color: colors.textMuted, fontFamily: fonts.medium, fontSize: 10, textTransform: "uppercase" },
-    detailValue: { color: colors.text, fontFamily: fonts.medium, fontSize: 14, lineHeight: 20, marginTop: 4 },
-    unavailable: { color: colors.textMuted, fontFamily: fonts.regular },
-    messageCard: { width: "100%", maxWidth: 520 },
-    messageContent: { alignItems: "center", padding: spacing.lg },
-    messageEyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 10 },
-    messageTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 21, textAlign: "center", marginTop: spacing.xs },
-    messageText: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: spacing.sm },
-    loadingText: { color: colors.text, fontFamily: fonts.medium, fontSize: 14 },
+    sectionHeader: { 
+        flexDirection: "row", 
+        alignItems: "center", 
+        gap: spacing.sm, 
+        marginBottom: spacing.xs 
+    },
+    sectionMarker: { 
+        width: 3, 
+        height: 18, 
+        borderRadius: 2, 
+        backgroundColor: colors.brightBlue 
+    },
+    sectionTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 17 
+    },
+    detailRow: { 
+        paddingVertical: 12, 
+        borderBottomWidth: StyleSheet.hairlineWidth, 
+        borderBottomColor: colors.glassBorder 
+    },
+    detailLabel: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.medium, 
+        fontSize: 10, 
+        textTransform: "uppercase" },
+    detailValue: { 
+        color: colors.text, 
+        fontFamily: fonts.medium, 
+        fontSize: 14, 
+        lineHeight: 20, 
+        marginTop: 4 
+    },
+    unavailable: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular 
+    },
+    messageCard: { 
+        width: "100%", 
+        maxWidth: 520 
+    },
+    messageContent: { 
+        alignItems: "center", 
+        padding: spacing.lg 
+    },
+    messageEyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 10 },
+    messageTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 21, 
+        textAlign: "center", 
+        marginTop: spacing.xs 
+    },
+    messageText: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 13, 
+        lineHeight: 20, 
+        textAlign: "center", 
+        marginTop: spacing.sm 
+    },
+    loadingText: { 
+        color: colors.text, 
+        fontFamily: fonts.medium, 
+        fontSize: 14 },
     emptyDetailsText: {
         color: colors.textMuted,
         fontFamily: fonts.medium,
@@ -173,6 +260,15 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         textAlign: "center",
     },
-    retryButton: { marginTop: spacing.md, borderRadius: radius.md, backgroundColor: colors.fordBlue, paddingHorizontal: spacing.md, paddingVertical: 12 },
-    retryText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 13 },
+    retryButton: { 
+        marginTop: spacing.md, 
+        borderRadius: radius.md, 
+        backgroundColor: colors.fordBlue, 
+        paddingHorizontal: spacing.md, 
+        paddingVertical: 12 
+    },
+    retryText: { 
+        color: colors.white, 
+        fontFamily: fonts.semibold, 
+        fontSize: 13 },
 });

@@ -69,12 +69,48 @@ const styles = StyleSheet.create({
         paddingTop: spacing.lg,
         paddingBottom: 112,
     },
-    header: { marginBottom: spacing.lg },
-    eyebrow: { color: colors.brightBlue, fontFamily: fonts.semibold, fontSize: 11 },
-    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 30, marginTop: spacing.xs },
-    subtitle: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 14, lineHeight: 21, marginTop: spacing.sm, maxWidth: 520 },
+    header: { 
+        marginBottom: spacing.lg 
+    },
+    eyebrow: { 
+        color: colors.brightBlue, 
+        fontFamily: fonts.semibold, 
+        fontSize: 11 
+    },
+    title: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 30, 
+        marginTop: spacing.xs 
+    },
+    subtitle: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 14, 
+        lineHeight: 21, 
+        marginTop: spacing.sm, 
+        maxWidth: 520 
+    },
     separator: { height: spacing.md },
-    emptyContent: { alignItems: "center", justifyContent: "center", minHeight: 190, padding: spacing.lg },
-    emptyTitle: { color: colors.text, fontFamily: fonts.bold, fontSize: 19, textAlign: "center" },
-    emptyText: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: 13, lineHeight: 20, textAlign: "center", marginTop: spacing.sm, maxWidth: 360 },
+    emptyContent: { 
+        alignItems: "center", 
+        justifyContent: "center", 
+        minHeight: 190, 
+        padding: spacing.lg 
+    },
+    emptyTitle: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 19, 
+        textAlign: "center" 
+    },
+    emptyText: { 
+        color: colors.textMuted, 
+        fontFamily: fonts.regular, 
+        fontSize: 13, 
+        lineHeight: 20, 
+        textAlign: "center", 
+        marginTop: spacing.sm, 
+        maxWidth: 360 
+    },
 });

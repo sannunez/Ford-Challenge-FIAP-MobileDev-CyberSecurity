@@ -67,8 +67,18 @@ const styles = StyleSheet.create({
         fontSize: 11,
         textTransform: "uppercase",
     },
-    title: { color: colors.text, fontFamily: fonts.bold, fontSize: 19, marginTop: 2 },
-    year: { color: colors.ice, fontFamily: fonts.semibold, fontSize: 12, paddingTop: 2 },
+    title: { 
+        color: colors.text, 
+        fontFamily: fonts.bold, 
+        fontSize: 19, 
+        marginTop: 2 
+    },
+    year: { 
+        color: colors.ice, 
+        fontFamily: fonts.semibold, 
+        fontSize: 12, 
+        paddingTop: 2 
+    },
     description: {
         color: colors.textMuted,
         fontFamily: fonts.regular,
@@ -76,7 +86,11 @@ const styles = StyleSheet.create({
         lineHeight: 19,
         marginTop: spacing.sm,
     },
-    actions: { flexDirection: "row", gap: spacing.sm, marginTop: spacing.md },
+    actions: { 
+        flexDirection: "row", 
+        gap: spacing.sm, 
+        marginTop: spacing.md 
+    },
     primaryButton: {
         flex: 1,
         minHeight: 44,
@@ -86,7 +100,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.fordBlue,
         paddingHorizontal: spacing.md,
     },
-    primaryButtonText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 13 },
+    primaryButtonText: { 
+        color: colors.white, 
+        fontFamily: fonts.semibold, 
+        fontSize: 13 
+    },
     removeButton: {
         width: 46,
         height: 44,
@@ -97,7 +115,10 @@ const styles = StyleSheet.create({
         borderColor: colors.glassBorder,
         backgroundColor: "rgba(57, 168, 255, 0.12)",
     },
-    icon: { width: 22, height: 22 },
+    icon: { 
+        width: 22, 
+        height: 22 
+    },
     pressed: { opacity: 0.72 },
 });
 
