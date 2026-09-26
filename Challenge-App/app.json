@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Challenge-App",
-    "slug": "Challenge-App",
+    "name": "Ford Challenge",
+    "slug": "ford-challenge-fiap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,6 +16,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.fiap.rm558989.fordchallenge",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#06182C"
@@ -38,6 +40,12 @@
     "plugins": [
       "expo-font",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "07275639-fee7-4663-988c-09d169f091d0"
+      }
+    },
+    "owner": "sannunez"
   }
 }
