@@ -2,7 +2,6 @@
 
 Guilherme Santos Nunes – RM558989 <br/>
 Kaique Rodrigues Zaffarani – RM556677 <br/>
-Kairo da Silva Silvestre de Carvalho – RM558288 <br/>
 Pedro Josué Pereira Almeida – RM554913
 
 <br/>
@@ -18,11 +17,11 @@ Aplicativo mobile desenvolvido como parte do desafio da FIAP 2026, em parceria c
 O aplicativo foi desenvolvido em React Native com Expo e oferece quatro funcionalidades principais:
 
 - **Lançamentos**: conteúdo promocional sobre o novo Ford Ranger Raptor
-- **Lista de veículos**: navegação paginada com rolagem infinita e filtro por fabricante
-- **Detalhes do veículo**: especificações completas divididas em desempenho, mecânica, configurações e outros
+- **Lista de veículos**: catálogo paginado em uma área de rolagem delimitada, com filtro por fabricante
+- **Detalhes do veículo**: especificações completas divididas em desempenho, mecânica, configurações e equipamentos
 - **Carros salvos**: favoritos persistidos localmente com AsyncStorage
 
-A interface é inteiramente em português (pt-BR) e utiliza tema escuro.
+A interface é inteiramente em português (pt-BR) e utiliza uma identidade visual em tons de azul inspirada na Ford, com fundos em gradiente, componentes translúcidos e cartões com efeito de vidro.
 
 ---
 
@@ -32,12 +31,17 @@ A interface é inteiramente em português (pt-BR) e utiliza tema escuro.
 |--------|-----------|
 | Framework mobile | React Native + Expo |
 | Linguagem | TypeScript (modo estrito) |
-| Navegação | React Navigation (Bottom Tabs + Stack) |
+| Navegação | React Navigation (Bottom Tabs) |
 | Requisições HTTP | Axios |
 | Gerenciamento de dados | TanStack React Query (paginação infinita) |
 | Persistência local | AsyncStorage |
+| Armazenamento seguro | Expo Secure Store |
+| Interface visual | Expo Blur + Expo Linear Gradient |
 | Tipografia | Google Fonts - Montserrat |
 | Backend | Java 21 + Spring Boot 4 (API REST) |
+| Conteinerização | Docker + Docker Compose |
+| Hospedagem do backend | Render |
+| Build Android | Expo Application Services (EAS Build) |
 
 ---
 
@@ -46,8 +50,13 @@ A interface é inteiramente em português (pt-BR) e utiliza tema escuro.
 ```
 Challenge-App/
 ├── App.tsx                         # Componente raiz com providers globais
+├── app.json                        # Metadados do Expo, pacote Android e vínculo com o projeto EAS
+├── eas.json                        # Perfis de build do EAS para APK e produção
+├── Dockerfile                      # Ambiente conteinerizado para executar o Expo em desenvolvimento
 ├── assets/                         # Imagens, logos e GIFs
 ├── components/
+│   ├── AppBackground.tsx           # Fundo responsivo com gradientes da identidade visual
+│   ├── GlassCard.tsx               # Componente reutilizável de cartão translúcido com efeito de vidro
 │   ├── truckCard.tsx               # Card de veículo na listagem (memoizado)
 │   └── savedCard.tsx               # Card de veículo salvo (memoizado)
 ├── context/
@@ -65,13 +74,17 @@ Challenge-App/
 │   ├── details/                    # Tela de detalhes do veículo
 │   └── savedCars/                  # Tela de favoritos salvos
 ├── services/
+│   ├── apiConfig.ts                # URLs e variáveis públicas usadas na comunicação com o backend
 │   ├── authService.ts              # Gerenciamento do ciclo de vida do JWT (expo-secure-store)
 │   ├── axiosInstance.ts            # Instância Axios com interceptors de auth e retry
 │   └── savedCarsStorage.ts         # Wrapper AsyncStorage com validação de schema
+├── theme/
+│   └── index.ts                    # Cores, tipografia, espaçamentos, raios e sombras globais
 └── types/
     └── navigation.ts               # Tipos de navegação TypeScript
 
 ChallengeFord/
+├── Dockerfile                      # Build Maven e imagem Java do backend para publicação
 ├── pom.xml                         # Dependências Maven
 └── src/main/java/com/example/ChallengeFord/
     ├── ChallengeFordApplication.java
@@ -96,6 +109,10 @@ ChallengeFord/
     ├── Exception/
     │   └── GlobalExceptionHandler.java # Tratamento centralizado de erros
     └── Model/                       # DTOs e modelos de dados
+
+Arquivos na raiz/
+├── .env.example                    # Modelo das variáveis de ambiente para execução local
+└── compose.yaml                    # Orquestra os contêineres do backend e do aplicativo mobile
 ```
 
 ---
@@ -107,8 +124,8 @@ Abas principais
 ├── Lançamentos  — Conteúdo promocional com animações (Ford Ranger Raptor)
 ├── Veículos     — Lista paginada com filtro por fabricante (tela inicial)
 │   └── [Selecionar veículo] → navega para Detalhes
-├── Salvos       — Lista de favoritos persistidos localmente
-└── (Detalhes)   — Especificações técnicas; acessada a partir de Veículos
+├── Detalhes     — Ficha técnica do veículo selecionado ou orientação no estado inicial
+└── Salvos       — Lista de favoritos persistidos localmente
 ```
 
 A comunicação entre a tela de lista e a de detalhes é feita via `CarProvider` (React Context), evitando o repasse de props entre telas. Os favoritos são gerenciados pelo `SavedCarsProvider`, que sincroniza o estado React com o AsyncStorage.
@@ -117,7 +134,7 @@ A comunicação entre a tela de lista e a de detalhes é feita via `CarProvider`
 
 ## Integração com a API
 
-A API backend é desenvolvida em Java com Spring Boot e exposta localmente na porta `8080`.
+A API backend é desenvolvida em Java com Spring Boot, executada localmente na porta `8080` e publicada no Render para uso pelo APK.
 
 | Endpoint | Descrição |
 |----------|-----------|
@@ -125,6 +142,44 @@ A API backend é desenvolvida em Java com Spring Boot e exposta localmente na po
 | `GET /cars/{id}` | Detalhes completos de um veículo pelo ID |
 
 O backend consome dados da API pública [carapi.app](https://carapi.app) e aplica deduplicação, validação e cache antes de entregar ao cliente. A paginação retorna metadados de navegação (`next`, `prev`, `pages`, `total`) encapsulados no objeto `CollectionDTO`.
+
+---
+
+## Evidências Visuais da Aplicação
+
+As capturas abaixo demonstram os principais fluxos e estados da versão final do aplicativo.
+
+### Tela de Lançamento - Ford Ranger Raptor 2026
+
+> Inserir aqui a captura da tela de lançamento, incluindo o conteúdo promocional e as principais especificações.
+
+### Tela de Veículos - Lista do Mercado
+
+> Inserir aqui a captura da listagem de veículos e do card com acesso ao trailer da nova Ranger Raptor.
+
+### Tela de Veículos - Filtro por Fabricante
+
+> Inserir aqui a captura do seletor de fabricantes aberto e de uma listagem filtrada.
+
+### Tela de Detalhes - Ficha Técnica do Veículo
+
+> Inserir aqui a captura dos detalhes de um veículo selecionado, com suas especificações técnicas.
+
+### Tela de Detalhes - Estado Inicial
+
+> Inserir aqui a captura da orientação exibida quando nenhum veículo foi selecionado.
+
+### Tela de Veículos Salvos
+
+> Inserir aqui a captura da lista de veículos adicionados aos favoritos.
+
+### Tela de Veículos Salvos - Lista Vazia
+
+> Inserir aqui a captura da orientação exibida quando ainda não existem veículos salvos.
+
+### Estado de Carregamento
+
+> Inserir aqui a captura do indicador apresentado durante o carregamento dos dados da API.
 
 ---
 
