@@ -151,35 +151,54 @@ As capturas abaixo demonstram os principais fluxos e estados da versão final do
 
 ### Tela de Lançamento - Ford Ranger Raptor 2026
 
-> Inserir aqui a captura da tela de lançamento, incluindo o conteúdo promocional e as principais especificações.
+<p align="center">
+  <img src="ReadmeImages/ReleaseScreen1.png" alt="Tela de lançamento da Ford Ranger Raptor 2026" width="45%" />
+  <img src="ReadmeImages/ReleaseScreen2.png" alt="Especificações da Ford Ranger Raptor 2026" width="45%" />
+</p>
 
 ### Tela de Veículos - Lista do Mercado
 
-> Inserir aqui a captura da listagem de veículos e do card com acesso ao trailer da nova Ranger Raptor.
+<p align="center">
+  <img src="ReadmeImages/VehicleScreenMarketList.png" alt="Lista de veículos disponíveis no mercado" width="320" />
+</p>
 
 ### Tela de Veículos - Filtro por Fabricante
 
-> Inserir aqui a captura do seletor de fabricantes aberto e de uma listagem filtrada.
+<p align="center">
+  <img src="ReadmeImages/VehicleScreenListManufact.png" alt="Filtro da lista de veículos por fabricante" width="320" />
+</p>
 
 ### Tela de Detalhes - Ficha Técnica do Veículo
 
-> Inserir aqui a captura dos detalhes de um veículo selecionado, com suas especificações técnicas.
+<p align="center">
+  <img src="ReadmeImages/VehicleDetails1.png" alt="Ficha técnica do veículo selecionado" width="45%" />
+  <img src="ReadmeImages/VehicleDetails2.png" alt="Continuação da ficha técnica do veículo selecionado" width="45%" />
+</p>
 
 ### Tela de Detalhes - Estado Inicial
 
-> Inserir aqui a captura da orientação exibida quando nenhum veículo foi selecionado.
+<p align="center">
+  <img src="ReadmeImages/VehiclesDetailsInitialState.png" alt="Estado inicial da tela de detalhes" width="320" />
+</p>
 
 ### Tela de Veículos Salvos
 
-> Inserir aqui a captura da lista de veículos adicionados aos favoritos.
+<p align="center">
+  <img src="ReadmeImages/SavedVehicles1.png" alt="Lista de veículos salvos" width="45%" />
+  <img src="ReadmeImages/SavedVehicles2.png" alt="Acesso aos detalhes de um veículo salvo" width="45%" />
+</p>
 
 ### Tela de Veículos Salvos - Lista Vazia
 
-> Inserir aqui a captura da orientação exibida quando ainda não existem veículos salvos.
+<p align="center">
+  <img src="ReadmeImages/SavedVehiclesEmptyList.png" alt="Estado vazio da lista de veículos salvos" width="320" />
+</p>
 
 ### Estado de Carregamento
 
-> Inserir aqui a captura do indicador apresentado durante o carregamento dos dados da API.
+<p align="center">
+  <img src="ReadmeImages/LoadingState.png" alt="Carregamento dos dados da API" width="320" />
+</p>
 
 ---
 
